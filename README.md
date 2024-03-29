@@ -113,11 +113,11 @@ curl -H "Content-Type: application/json" -X POST https://w7nbdj3b3nsy3uycjqd7bmu
 
 ### Testing
 #### User Model
-- [ ] Verify that all defined columns necessary exist.
-- [ ] Verify that columns have proper validation on the model.
+- [x] Verify that all defined columns necessary exist.
+- [x] Verify that columns have proper validation on the model.
 - [ ] Verify that it is possible to search for a user by `email`, `full_name`,
     and `metadata` using a single search functionality.
-- [ ] Coverage should be 100% for app/models/user.rb
+- [x] Coverage should be 100% for app/models/user.rb
 
 #### User Service Routing
 - [ ] Verify that the GET /api/users endpoint routes to the appropriate method.
