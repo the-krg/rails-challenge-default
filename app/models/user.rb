@@ -1,7 +1,9 @@
 class User < ApplicationRecord
   ALLOWED_SEARCH_PARAMS = %w(email full_name metadata).freeze
 
-  validates :email, :phone_number, :password, :key, presence: true
+  before_create :generate_key
+
+  validates :email, :phone_number, :password, presence: true
   validates :email, :phone_number, :key, :account_key, uniqueness: true
 
   validates :email, length: { maximum: 200 }
@@ -16,5 +18,11 @@ class User < ApplicationRecord
     allowed_params = search_params.select { |param| ALLOWED_SEARCH_PARAMS.include?(param) }
 
     where(allowed_params)
+  end
+
+  private
+
+  def generate_key
+    self.key = SecureRandom.hex(32)
   end
 end

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   class Validations < UserTest
-    presence_validations = ["email", "phone_number", "password", "key"]
+    presence_validations = ["email", "phone_number", "password"]
     uniqueness_validations = ["email", "phone_number", "key", "account_key"]
     max_length_validations = { 
       email: 200, 
@@ -53,6 +53,16 @@ class UserTest < ActiveSupport::TestCase
 
         assert_not user.save
       end
+    end
+  end
+
+  class Callbacks < UserTest
+    test "should generate a random key when creating user" do
+      user = User.new(email: 'test@example.com', phone_number: '000', password: '000', key: nil)
+
+      user.save
+
+      assert user.key.present?
     end
   end
 
