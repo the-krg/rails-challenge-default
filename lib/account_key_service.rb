@@ -1,7 +1,7 @@
 require 'net/http'
 
 class AccountKeyService
-  BASE_URL = 'http://localhost:3000'
+  BASE_URL = 'http://localhost:3005'
 
   def initialize(email, key)
     @email = email
