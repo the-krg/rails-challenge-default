@@ -130,16 +130,16 @@ curl -H "Content-Type: application/json" -X POST https://w7nbdj3b3nsy3uycjqd7bmu
 - [x] Verify that a request with a query parameter returns all users in the
     database filtered by the query paramater, using the specified JSON format,
     ordered by most recently created first.
-- [ ] Verify that creating a new user works with unique values specified, and
+- [x] Verify that creating a new user works with unique values specified, and
     returns a single User JSON object and a 201 Created status header.
-- [ ] Verify that creating a new user with non-unique values specified, returns
+- [x] Verify that creating a new user with non-unique values specified, returns
     a 422 Unprocessable Entity status, and an array of errors in the specified
     JSON format.
-- [ ] Verify that a new user that is created has a random key generated for it on
+- [x] Verify that a new user that is created has a random key generated for it on
     the server side.
-- [ ] Verify that a new user that is created has it's password stored in a hashed
+- [x] Verify that a new user that is created has it's password stored in a hashed
     manner, with a salt value.
-- [ ] Verify that a new user that is created has an access_key created for it by
+- [x] Verify that a new user that is created has an access_key created for it by
     accessing the Account Key service.
 
 
