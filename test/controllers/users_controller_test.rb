@@ -96,4 +96,47 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  class CreateEndpoint < UsersControllerTest
+    test "should return 201 when creating user with unique values" do
+      user_params = { 
+        email: "new_user@example.com",
+        phone_number: "1234321",
+        full_name: "New User",
+        metadata: "male, age 24"
+      }
+      
+      post api_users_url, params: { user: user_params, password: "password" }
+
+      result = JSON.parse(@response.body)
+
+      assert_response :created
+      assert_equal user_params[:email], result["email"]
+      assert result["key"]
+
+      created_user = User.find_by(email: user_params[:email])
+
+      assert_nil created_user.password
+      assert created_user.password_digest
+
+      UserAccountKeyJob.new.perform(created_user.email, created_user.key)
+
+      assert User.find_by(email: user_params[:email]).account_key
+    end
+
+    test "should return 422 when creating user with non-unique values" do
+      user_params = { 
+        email: "john@doe.com",
+        phone_number: "1234321",
+        full_name: "New User",
+        metadata: "male, age 24"
+      }
+      
+      post api_users_url, params: { user: user_params, password: "password" }
+
+      result = JSON.parse(@response.body)
+
+      assert_response :unprocessable_entity
+      assert_includes result["errors"], "Email has already been taken"
+    end
+  end
 end
