@@ -51,7 +51,7 @@ below:
 
 ### JSON Specifications
 
-- [ ] On creation of a new user, the response object should be in the following
+- [x] On creation of a new user, the response object should be in the following
     format:
 ```
 {
@@ -63,7 +63,7 @@ below:
  metadata: "male, age 32, unemployed, college-educated"
 }
 ```
-- [ ] On returning found users, the response object should be in the following
+- [x] On returning found users, the response object should be in the following
     format:
 ```
 {
@@ -79,7 +79,7 @@ below:
  ]
 }
 ```
-- [ ] Errors should be returned as:
+- [x] Errors should be returned as:
 ```
 {
  errors: [
