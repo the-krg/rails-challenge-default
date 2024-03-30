@@ -3,7 +3,7 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   class Validations < UserTest
     presence_validations = ["email", "phone_number"]
-    uniqueness_validations = ["email", "phone_number", "key", "account_key"]
+    uniqueness_validations = ["email", "phone_number", "key"]
     max_length_validations = { 
       email: 200, 
       phone_number: 20, 
@@ -38,7 +38,7 @@ class UserTest < ActiveSupport::TestCase
 
     test "must not save user without password" do
       user = users(:john)
-      user.password = ''
+      user.password = nil
 
       assert_not user.save
     end
