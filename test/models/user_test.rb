@@ -81,6 +81,18 @@ class UserTest < ActiveSupport::TestCase
 
       assert user.key.present?
     end
+
+    test "should generate an access key after user is created" do
+      user = User.new(email: 'test@example.com', phone_number: '000', key: nil)
+      user.password = 'password'
+      user.save
+
+      assert_not user.account_key
+
+      UserAccountKeyJob.new.perform(user.email, user.key)
+
+      assert User.find_by(email: user.email).account_key.present?
+    end
   end
 
   class Search < UserTest
