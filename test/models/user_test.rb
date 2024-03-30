@@ -2,13 +2,12 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   class Validations < UserTest
-    presence_validations = ["email", "phone_number", "password"]
+    presence_validations = ["email", "phone_number"]
     uniqueness_validations = ["email", "phone_number", "key", "account_key"]
     max_length_validations = { 
       email: 200, 
       phone_number: 20, 
       full_name: 200, 
-      password: 100, 
       key: 100, 
       account_key: 100, 
       metadata: 2000,
@@ -16,6 +15,8 @@ class UserTest < ActiveSupport::TestCase
 
     test "saves users with all information filled" do
       user = users(:john)
+      user.password = 'password'
+
       assert user.save
     end
 
@@ -28,15 +29,24 @@ class UserTest < ActiveSupport::TestCase
     presence_validations.each do |required_attribute|
       test "must not save user without #{required_attribute}" do
         user = users(:john)
+        user.password = 'password'
         user[required_attribute] = ''
     
         assert_not user.save
       end
     end
 
+    test "must not save user without password" do
+      user = users(:john)
+      user.password = ''
+
+      assert_not user.save
+    end
+
     uniqueness_validations.each do |unique_attribute|
       test "must not save user with #{unique_attribute} already in use" do
         user = users(:john)
+        user.password = 'password'
         user.save
 
         new_user = users(:paul)
@@ -54,12 +64,19 @@ class UserTest < ActiveSupport::TestCase
         assert_not user.save
       end
     end
+
+    test "password length must not be more than 100" do
+      user = users(:john)
+      user.password = "x" * 101
+
+      assert_not user.save
+    end
   end
 
   class Callbacks < UserTest
     test "should generate a random key when creating user" do
-      user = User.new(email: 'test@example.com', phone_number: '000', password: '000', key: nil)
-
+      user = User.new(email: 'test@example.com', phone_number: '000', key: nil)
+      user.password = 'password'
       user.save
 
       assert user.key.present?

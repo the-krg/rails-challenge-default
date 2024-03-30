@@ -2,7 +2,7 @@ john:
   email: john@doe.com
   phone_number: 123456789
   full_name: John doe
-  password: xpto
+  password_digest: xpto
   key: unique_key_1
   account_key: unique_account_key_1
   metadata: "{}"
@@ -10,7 +10,7 @@ paul:
   email: paul@doe.com
   phone_number: 234567890
   full_name: Paul doe
-  password: xpto
+  password_digest: xpto
   key: unique_key_2
   account_key: unique_account_key_2
   metadata: "{}"

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_secure_password
+
   ALLOWED_SEARCH_PARAMS = %w(email full_name metadata).freeze
 
   before_create :generate_key
