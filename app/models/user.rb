@@ -4,9 +4,11 @@ class User < ApplicationRecord
   ALLOWED_SEARCH_PARAMS = %w(email full_name metadata).freeze
 
   before_create :generate_key
+  after_create :generate_account_key
 
-  validates :email, :phone_number, :password, presence: true
-  validates :email, :phone_number, :key, :account_key, uniqueness: true
+  validates :email, :phone_number, presence: true
+  validates :email, :phone_number, :key, uniqueness: true
+  validates :password, presence: true, on: :create
 
   validates :email, length: { maximum: 200 }
   validates :phone_number, length: { maximum: 20 }
@@ -26,5 +28,9 @@ class User < ApplicationRecord
 
   def generate_key
     self.key = SecureRandom.hex(32)
+  end
+
+  def generate_account_key
+    UserAccountKeyJob.perform_later(self.email, self.key)
   end
 end
